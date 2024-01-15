@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="col-lg-8">
+    <!-- Featured blog post-->
+    <div class="card mb-4">
+        <img class="card-img-top" src="{{category.image.url}}"
+                alt="..." />
+    </div>
+    <!-- Nested row for non-featured blog posts-->
+    <div class="row">
+        {% for notice in notices %}
+        <div class="col-lg-6">
+            <!-- Blog post-->
+            <div class="card mb-4">
+                {% if not notice.urlToImage %}
+                <a href="{{notice.url}}" target="_blank">
+                    <img class="card-img-top" src="{% static '\\img\\not_image.png' %}" alt="..." /></a>
+                {% else %}
+                <a href="{{notice.url}}" target="_blank">
+                    <img class="card-img-top" src="{{notice.urlToImage}}" alt="..." /></a>
+                {% endif %}
+                <div class="card-body">
+                    <div class="small text-muted">{{notice.publishedAt | custom_data}}</div>
+                    <h2 class="card-title h4">{{notice.source.name}}</h2>
+                    <p class="card-text">{{notice.title}}</p>
+                    <a class="btn btn-primary" href="{{notice.url}}" target="_blank">Leia no site →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
